@@ -1,5 +1,7 @@
 import React from "react";
 import { useLoaderData, useParams } from "react-router-dom";
+import { addToStoredReadList } from "../../utitilities/addToDB";
+import { addToStoredWishList } from "../../utitilities/addToWish";
 
 const BookDetail = () => {
   const { bookId } = useParams();
@@ -10,6 +12,7 @@ const BookDetail = () => {
   const book = data.find((book) => book.bookId === id);
   const {
     bookName,
+    
     author,
     image,
     review,
@@ -21,16 +24,23 @@ const BookDetail = () => {
     yearOfPublishing,
   } = book;
 
-  console.log(book);
+  const handleMarkAsRead = (id) => {
 
-  console.log(data);
+    addToStoredReadList(id);
+
+  }
+
+
+  const handleWishList = (id) => {
+    addToStoredWishList(id)
+  }
 
   return (
     <div className="hero bg-base-200 min-h-screen">
       <div className="hero-content flex-col lg:flex-row gap-20">
         <div className="lg:w-1/2">
           <div className=" py-16 px-16 rounded-lg bg-[#131313] bg-opacity-5">
-            <img src={book.image} className=" rounded-lg h-96 mx-auto" />
+            <img src={image} className=" rounded-lg h-96 mx-auto" />
           </div>
         </div>
         <div className="space-y-3 lg:w-1/2">
@@ -62,8 +72,8 @@ const BookDetail = () => {
             <div className="opacity-60 w-1/3">Rating:</div>
             <div className=" font-bold text-left  w-2/3">{rating}</div>
           </div>
-          <button className="btn  border-gray-300 font-bold mr-5">Mark as Read</button>
-          <button className="btn bg-[#50B1C9] text-white font-bold">Wishlist</button>
+          <button onClick={()=> handleMarkAsRead(bookId)} className="btn  border-gray-300 font-bold mr-5">Mark as Read</button>
+          <button onClick={() => handleWishList(bookId)} className="btn bg-[#50B1C9] text-white font-bold">Wishlist</button>
         </div>
       </div>
     </div>
